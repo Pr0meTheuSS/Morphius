@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
 #include "../GraphCore.hpp"
 
-TEST(GraphCoreTest, InitInvariantTest) {
+TEST(GraphCoreTest, RemoveEdgeTest) {
     // INIT
     const size_t graphSize = 10;
     GraphCore gr(graphSize);

@@ -16,12 +16,12 @@ GraphCore::~GraphCore() {
 }
 
 bool GraphCore::VerifyEdge(const std::pair<size_t, size_t>& edge) const {
-    return edge.first >= Size || edge.second >= Size;
+    return edge.first < Size && edge.second < Size;
 }
 
 bool GraphCore::GetEdge(const std::pair<size_t, size_t>& edge) const {
     if (!VerifyEdge(edge)) {
-        throw std::out_of_range("From class :\tGeaphCore\n"\
+        throw std::out_of_range("From class :\tGraphCore\n"\
                                 "From method :\t GetEdge\n"\
                                 "Error :\t node index is out of range\n"); 
         return false;
@@ -31,7 +31,7 @@ bool GraphCore::GetEdge(const std::pair<size_t, size_t>& edge) const {
 
 void GraphCore::AddEdge(const std::pair<size_t, size_t>& edge) {
     if (!VerifyEdge(edge)) {
-        throw std::out_of_range("From class :\tGeaphCore\n"\
+        throw std::out_of_range("From class :\tGraphCore\n"\
                                 "From method :\t AddEdge\n"\
                                 "Error :\t node index is out of range\n"); 
     }
@@ -40,7 +40,7 @@ void GraphCore::AddEdge(const std::pair<size_t, size_t>& edge) {
 
 void GraphCore::RemoveEdge(const std::pair<size_t, size_t>& edge) {
      if (!VerifyEdge(edge)) {
-        throw std::out_of_range("From class :\tGeaphCore\n"\
+        throw std::out_of_range("From class :\tGraphCore\n"\
                                 "From method :\t RemoveEdge\n"\
                                 "Error :\t node index is out of range\n"); 
     }
