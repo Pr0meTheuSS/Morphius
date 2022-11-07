@@ -48,18 +48,26 @@ public:
     bool GetEdge(const std::pair<size_t, size_t>& edge) const;
     
     /*! Docs
-     *\brief Edge setter.
+     *\brief Add new edge in graph.
      *\param [in] edge pair of indexes == {edge_begin, edge_end}.
      *\returns void
      *\throw std::out_of_range if the node is accessed by an invalid index.
      */
-    void SetEdge(const std::pair<size_t, size_t>& edge) const ;
+    void AddEdge(const std::pair<size_t, size_t>& edge);
     
     /*! Docs
      *\brief Size getter.
      *\returns Graph's size. Equal nodes amount.
      */
     size_t GetSize();
+
+    /*! Docs
+     *\brief Remove edge if graph contains it.
+     *\details Method doesn't work with memory.
+     *\param [in] edge pair of indexes == {edge_begin, edge_end}.
+     *\returns void
+     */
+    void RemoveEdge(const std::pair<size_t, size_t>& edge);
 private:
     bool VerifyEdge(const std::pair<size_t, size_t>& edge) const; 
     bool** AdjMatrix; /*! <Second-order array of bools*/

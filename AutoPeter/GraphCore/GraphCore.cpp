@@ -29,12 +29,23 @@ bool GraphCore::GetEdge(const std::pair<size_t, size_t>& edge) const {
     return AdjMatrix[edge.first][edge.second];
 }
 
-void GraphCore::SetEdge(const std::pair<size_t, size_t>& edge) const {
+void GraphCore::AddEdge(const std::pair<size_t, size_t>& edge) {
     if (!VerifyEdge(edge)) {
         throw std::out_of_range("From class :\tGeaphCore\n"\
-                                "From method :\t SetEdge\n"\
+                                "From method :\t AddEdge\n"\
                                 "Error :\t node index is out of range\n"); 
     }
     AdjMatrix[edge.first][edge.second] = true;
+}
+
+void GraphCore::RemoveEdge(const std::pair<size_t, size_t>& edge) {
+     if (!VerifyEdge(edge)) {
+        throw std::out_of_range("From class :\tGeaphCore\n"\
+                                "From method :\t RemoveEdge\n"\
+                                "Error :\t node index is out of range\n"); 
+    }
+    // 0 will be converted to bool 
+    // 0 is default value for marking unexisted edge
+    AdjMatrix[edge.first][edge.second] = 0;
 }
 
