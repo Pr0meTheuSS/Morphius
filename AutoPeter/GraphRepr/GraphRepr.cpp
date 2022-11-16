@@ -2,7 +2,7 @@
 
 GraphRepresentation::GraphRepresentation(size_t size)
     : GraphCore_(size), Size_(size) {
-    Positions_ = new std::valarray<double>[size];
+    Positions_ = new std::valarray<float>[size];
 }
 
 GraphRepresentation::~GraphRepresentation() {
@@ -10,14 +10,14 @@ GraphRepresentation::~GraphRepresentation() {
     Size_ = 0ull;
 }
 
-std::valarray<double> GraphRepresentation::GetPosition(size_t nodeIndex) const {
+std::valarray<float> GraphRepresentation::GetPosition(size_t nodeIndex) const {
      if (nodeIndex >= Size_) {
         throw std::invalid_argument("Invalid nodeIndex: out of range.\n");
     }
     return Positions_[nodeIndex];
 }
 
-void GraphRepresentation::SetPosition(size_t nodeIndex, const std::valarray<double>& pos) {
+void GraphRepresentation::SetPosition(size_t nodeIndex, const std::valarray<float>& pos) {
     if (nodeIndex >= Size_) {
         throw std::invalid_argument("Invalid nodeIndex: out of range.\n");
     }

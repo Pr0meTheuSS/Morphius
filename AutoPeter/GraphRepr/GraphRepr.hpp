@@ -27,13 +27,13 @@ class GraphRepresentation {
      *  \details
      *  \param
      */
-    std::valarray<double> GetPosition(size_t nodeIndex) const;
+    std::valarray<float> GetPosition(size_t nodeIndex) const;
     
     /*! \brief
      *  \details
      *  \param
      */
-    void SetPosition(size_t nodeIndex, const std::valarray<double>& pos);
+    void SetPosition(size_t nodeIndex, const std::valarray<float>& pos);
     
     /*! \brief
      *  \details
@@ -61,7 +61,7 @@ class GraphRepresentation {
 
  private:
     GraphCore GraphCore_;  /*! < field info */
-    std::valarray<double>* Positions_;  /*! < field info */
+    std::valarray<float>* Positions_;  /*! < field info */
     size_t Size_;  /*! < field info */
 };
 
