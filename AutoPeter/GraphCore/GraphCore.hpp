@@ -24,7 +24,7 @@ class GraphCore {
     /*! Docs
      *\brief Deleted standard constructor for immutability of graph size.
      */
-    GraphCore() = delete;
+    GraphCore() {Size = 0;};
 
     /*! Docs
      *\brief Explicit GraphCore constructor.
@@ -69,7 +69,18 @@ class GraphCore {
      *\returns void
      */
     void RemoveEdge(const std::pair<size_t, size_t>& edge);
+    
+    GraphCore(GraphCore& other) {
+        Size = other.Size;
 
+        AdjMatrix = new bool*[Size];
+        for (size_t node1 = 0; node1 < Size; node1++) {
+            AdjMatrix[node1] = new bool[Size];
+            for (size_t node2 = 0; node2 < Size; node2++) {
+                AdjMatrix[node1][node2] = other.AdjMatrix[node1][node2];
+            }
+        }
+    }
  private:
     bool VerifyEdge(const std::pair<size_t, size_t>& edge) const;
     bool** AdjMatrix; /*! <Second-order array of bools*/

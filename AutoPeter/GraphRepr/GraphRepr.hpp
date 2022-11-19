@@ -58,6 +58,12 @@ class GraphRepresentation {
      *  \param
      */
     size_t GetSize() const;
+    GraphRepresentation(GraphRepresentation& other) : GraphCore_(other.GraphCore_), Size_(other.Size_) {
+        Positions_ = new std::valarray<float>[Size_];
+        for (size_t node = 0; node < Size_; node++) {
+            Positions_[node] = other.Positions_[node];
+        }
+    }
 
  private:
     GraphCore GraphCore_;  /*! < field info */
