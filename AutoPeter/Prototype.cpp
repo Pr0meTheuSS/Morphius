@@ -2,8 +2,7 @@
 #include <GL/glut.h>
 
 #include <iostream>
-#include <ctime>
-#include <chrono>
+#include <limits>
 #include <valarray>
 #include <cmath>
 #include <cassert>
@@ -30,7 +29,7 @@
                case 1: return 8;
                case 2: return 9;
                case 3: return 6;
-               case 4: return 8;
+               case 4: return 7;
                case 5: return 0;
                case 6: return 2;
                case 7: return 4;
@@ -53,7 +52,7 @@
  */      size_t PeterGraphAutoMorphVer2(size_t index) {
            assert(index < 10);
            switch(index) {
-               case 0: return 9;
+               case 0: return 8;
                case 1: return 5;
                case 2: return 7;
                case 3: return 9;
@@ -67,20 +66,60 @@
            }
        }
 
+size_t PterGraphInternalCircleRightTurn(size_t index) {
+    assert(index < 10);
+    switch(index) {
+        case 0: return 0;
+        case 1: return 1;
+        case 2: return 2;
+        case 3: return 3;
+        case 4: return 4;
+        case 5: return 6;
+        case 6: return 7;
+        case 7: return 8;
+        case 8: return 9;
+        case 9: return 5;
+        default: return 0;
+    }
+}
+
+size_t PterGraphExternalCircleRightTurn(size_t index) {
+    assert(index < 10);
+    switch(index) {
+        case 0: return 1;
+        case 1: return 2;
+        case 2: return 3;
+        case 3: return 4;
+        case 4: return 0;
+        case 5: return 5;
+        case 6: return 6;
+        case 7: return 7;
+        case 8: return 8;
+        case 9: return 9;
+        default: return 0;
+    }
+}
+
+//void ViewApplyAutomorphism(GraphRepresentation* graph, std::function<size_t(size_t)> MapNodes, size_t detalization = 10) {
+//    assert(graph);
+//    GraphRepresentation staticOrigGraph(*graph);  
+//}
+
 // Init edges list and nodes amount.
 const std::pair<size_t, size_t> peterGraphEdges[] = { {0,1}, {0,5},{0,4}, {1,2}, {1,6}, {2,3}, {2,7}, {3,4}, {3,8}, {4,9}, {5,7}, {5,8}, {6,8}, {6,9}, {7,9} };
 const size_t peterGraphNodesAmount = 10;
-GraphRepresentation peterGraphRepr(10);
-GraphRepresentation staticOrigGraph = peterGraphRepr;
 
-void AutoMorphismCalcStep(GraphRepresentation* graph, size_t detalization = 1) {
-    for (size_t node = 0; node < graph->GetSize(); node++) {
-        std::cout << "Before:\t" << graph->GetPosition(node)[0] << "\t" << graph->GetPosition(node)[1] << std::endl;
-        std::valarray<float> move = staticOrigGraph.GetPosition(PeterGraphAutoMorphVer1(node)) - graph->GetPosition(node);
-        std::cout << "After\t:" << move[0] << "\t" << move[1] << std::endl;
-        move = {0.01f, 0.01f};
+GraphRepresentation peterGraphRepr(10);
+GraphRepresentation staticOrigGraph(10);
+
+void AutoMorphismCalcStep(GraphRepresentation* graph, size_t detalization = 10) {
+    for (size_t node = 0; node < graph->GetSize(); node++) {    
+        std::valarray<float> move = staticOrigGraph.GetPosition(PterGraphInternalCircleRightTurn(node)) - graph->GetPosition(node);
+        move /= detalization;
+        if (std::abs(move.sum()) < std::numeric_limits<float>::epsilon()) {
+           move = staticOrigGraph.GetPosition(PeterGraphAutoMorphVer2(node)) - graph->GetPosition(node);
+        }
         graph->SetPosition(node, graph->GetPosition(node) + move);
-        //graph->SetPosition(node, (staticOrigGraph.GetPosition(PeterGraphAutoMorphVer1(node)) - graph->GetPosition(node)) / float(detalization));
     }
 }
 
@@ -155,12 +194,12 @@ void timer(int x) {
     std::cout << "timer called" << std::endl;
     AutoMorphismCalcStep(&peterGraphRepr);
     displayloop();
-    //glutPostRedisplay();
     glutTimerFunc(100, timer, 0);
 }
 
 int main(int argc, char** argv) {
     InitPeterGraph(&peterGraphRepr);
+    InitPeterGraph(&staticOrigGraph);
     // Graphics part init and run main loop.
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE);
