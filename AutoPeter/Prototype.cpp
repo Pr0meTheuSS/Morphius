@@ -155,7 +155,6 @@ void InitPeterGraph(GraphRepresentation* graph) {
         float x = radius * cosf(theta);
         float y = radius * sinf(theta);
         graph->SetPosition(node, {x, y});
-    }
     // Init internal circle
     for (size_t node = graph->GetSize() / 2; node < graph->GetSize(); node++) {
         float theta = -2.0f * M_PI * float(node) / float(graph->GetSize() / 2) + M_PI / 2.0f;
