@@ -2,7 +2,6 @@
 #include <GL/glut.h>
 
 #include <iostream>
-#include <limits>
 #include <valarray>
 #include <cmath>
 #include <cassert>
@@ -141,16 +140,7 @@ void DrawLine(const std::valarray<float>& begin, const std::valarray<float>& end
     glEnd();
 }
 
-void DrawGraph(const GraphRepresentation& graph) {
-    for (size_t node1 = 0; node1 < graph.GetSize(); node1++) {
-        DrawCircle(graph.GetPosition(node1), 0.03f);
-        for (size_t node2 = 0; node2 < graph.GetSize(); node2++) {
-            if (graph.GetEdge({node1, node2})) {
-                DrawLine(graph.GetPosition(node1), graph.GetPosition(node2));
-            }
-        }
-    }
-}
+
 
 void InitPeterGraph(GraphRepresentation* graph) {
     // Init graph representation.
