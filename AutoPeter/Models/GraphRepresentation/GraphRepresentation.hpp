@@ -65,6 +65,18 @@ class GraphRepresentation {
         }
     }
 
+    void SerializeJSON(std::ostream& out) {
+        std::string jsonData = "{\n";
+            jsonData += "\"Size_\": " + std::to_string(Size_) + ",\n";
+            jsonData += "\t\"Nodes\": [\n";
+                for (size_t node = 0; node < Size_; node++) {
+                    jsonData += "\t\t[\"node\": " + std::to_string(node) + ", \"position\": " + "[ " + std::to_string(GetPosition(node)[0]) + ", " + std::to_string(GetPosition(node)[1]) + " ] ],\n";
+                }
+            jsonData += "\t]\n";
+        jsonData += "}\n";
+        out << jsonData;
+    }
+
  private:
     GraphCore GraphCore_;  /*! < field info */
     std::valarray<float>* Positions_;  /*! < field info */

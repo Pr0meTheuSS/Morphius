@@ -1,13 +1,12 @@
 /* Copyright 2022 <Olimpiev Y.> */
+#include <cassert>
+#include <cmath>
+#include <iostream>
+#include <valarray>
+
 #include <GL/glut.h>
 
-#include <iostream>
-#include <limits>
-#include <valarray>
-#include <cmath>
-#include <cassert>
-
-#include "GraphRepr/GraphRepr.hpp"
+#include "Models/GraphRepresentation/GraphRepresentation.hpp"
 
 /*
  * Peter Automorphism function:
@@ -107,7 +106,6 @@ size_t PterGraphExternalCircleRightTurn(size_t index) {
 
 // Init edges list and nodes amount.
 const std::pair<size_t, size_t> peterGraphEdges[] = { {0,1}, {0,5},{0,4}, {1,2}, {1,6}, {2,3}, {2,7}, {3,4}, {3,8}, {4,9}, {5,7}, {5,8}, {6,8}, {6,9}, {7,9} };
-const size_t peterGraphNodesAmount = 10;
 
 GraphRepresentation peterGraphRepr(10);
 GraphRepresentation staticOrigGraph(10);
@@ -116,9 +114,6 @@ void AutoMorphismCalcStep(GraphRepresentation* graph, size_t detalization = 10) 
     for (size_t node = 0; node < graph->GetSize(); node++) {    
         std::valarray<float> move = staticOrigGraph.GetPosition(PterGraphInternalCircleRightTurn(node)) - graph->GetPosition(node);
         move /= detalization;
-        if (std::abs(move.sum()) < std::numeric_limits<float>::epsilon()) {
-           move = staticOrigGraph.GetPosition(PeterGraphAutoMorphVer2(node)) - graph->GetPosition(node);
-        }
         graph->SetPosition(node, graph->GetPosition(node) + move);
     }
 }
@@ -145,12 +140,10 @@ void DrawLine(const std::valarray<float>& begin, const std::valarray<float>& end
     glEnd();
 }
 
+
 void DrawGraph(const GraphRepresentation& graph) {
-    for (size_t node = 0; node < graph.GetSize(); node++) {
-        DrawCircle(graph.GetPosition(node), 0.03f);
-    }
-    // Replace to: for (auto edge: graph.Edges_) {DrawLine(edge.begin, edge.end)};
     for (size_t node1 = 0; node1 < graph.GetSize(); node1++) {
+        DrawCircle(graph.GetPosition(node1), 0.03f);
         for (size_t node2 = 0; node2 < graph.GetSize(); node2++) {
             if (graph.GetEdge({node1, node2})) {
                 DrawLine(graph.GetPosition(node1), graph.GetPosition(node2));
@@ -158,6 +151,7 @@ void DrawGraph(const GraphRepresentation& graph) {
         }
     }
 }
+
 
 void InitPeterGraph(GraphRepresentation* graph) {
     // Init graph representation.
@@ -168,16 +162,14 @@ void InitPeterGraph(GraphRepresentation* graph) {
     float radius = 0.3;
     // Init external circle
     for (size_t node = 0; node < graph->GetSize() / 2; node++) { 
-        float theta = 2.0f * M_PI * float(node) / float(graph->GetSize() / 2) + M_PI / 2.0f;
-
+        float theta = -2.0f * M_PI * float(node) / float(graph->GetSize() / 2) + M_PI / 2.0f;
         float x = radius * cosf(theta);
         float y = radius * sinf(theta);
         graph->SetPosition(node, {x, y});
     }
     // Init internal circle
     for (size_t node = graph->GetSize() / 2; node < graph->GetSize(); node++) {
-        float theta = 2.0f * M_PI * float(node) / float(graph->GetSize() / 2) + M_PI / 2.0f;
-
+        float theta = -2.0f * M_PI * float(node) / float(graph->GetSize() / 2) + M_PI / 2.0f;
         float x = radius / 2.0f * cosf(theta);
         float y = radius / 2.0f * sinf(theta);
         graph->SetPosition(node, {x, y});

@@ -1,5 +1,5 @@
 compiler:=g++
-srcs:=Prototype GraphCore/GraphCore GraphRepr/GraphRepr
+srcs:=Prototype Models/GraphCore/GraphCore Models/GraphRepresentation/GraphRepresentation
 dbg_flags:=-g3 -O0
 ld_flags:= -lglut -lGLU -lGL
 bin_name:=app

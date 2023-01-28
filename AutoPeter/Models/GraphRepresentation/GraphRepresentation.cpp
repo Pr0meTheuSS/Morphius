@@ -1,4 +1,4 @@
-#include "GraphRepr.hpp"
+#include "GraphRepresentation.hpp"
 
 GraphRepresentation::GraphRepresentation(size_t size)
     : GraphCore_(size), Size_(size) {

@@ -24,20 +24,20 @@ class GraphCore {
     /*! Docs
      *\brief Deleted standard constructor for immutability of graph size.
      */
-    GraphCore() {Size = 0;};
+    GraphCore() noexcept { Size = 0; };
 
     /*! Docs
      *\brief Explicit GraphCore constructor.
      *\details Allocate memory by new operator for second-orfer matrix.
      *\param [in] size Graph size. Equal nodes amount.
      */
-    explicit GraphCore(const size_t size);
+    explicit GraphCore(const size_t size) noexcept;
 
     /*! Docs
      *\brief GraphCore destructor.
      *\details Call delete and delete [] operators to deallocate memory.
      */
-    ~GraphCore();
+    virtual ~GraphCore();
 
     /*! Docs
      *\brief Edge getter.
@@ -46,7 +46,7 @@ class GraphCore {
      *\throw std::out_of_range if the node is accessed by an invalid index.
     */
 
-    bool GetEdge(const std::pair<size_t, size_t>& edge) const;
+    virtual bool GetEdge(const std::pair<size_t, size_t>& edge) const;
 
     /*! Docs
      *\brief Add new edge in graph.
@@ -54,13 +54,13 @@ class GraphCore {
      *\returns void
      *\throw std::out_of_range if the node is accessed by an invalid index.
      */
-    void AddEdge(const std::pair<size_t, size_t>& edge);
+    virtual void AddEdge(const std::pair<size_t, size_t>& edge);
 
     /*! Docs
      *\brief Size getter.
      *\returns Graph's size. Equal nodes amount.
      */
-    size_t GetSize();
+    virtual size_t GetSize() const;
 
     /*! Docs
      *\brief Remove edge if graph contains it.
@@ -68,21 +68,17 @@ class GraphCore {
      *\param [in] edge pair of indexes == {edge_begin, edge_end}.
      *\returns void
      */
-    void RemoveEdge(const std::pair<size_t, size_t>& edge);
-    
-    GraphCore(GraphCore& other) {
-        Size = other.Size;
+    virtual void RemoveEdge(const std::pair<size_t, size_t>& edge);
+        
+    /*! Docs
+     *\brief Copy constructor.
+     *\ TODO: write doc. 
+     */
+    GraphCore(GraphCore& other);
 
-        AdjMatrix = new bool*[Size];
-        for (size_t node1 = 0; node1 < Size; node1++) {
-            AdjMatrix[node1] = new bool[Size];
-            for (size_t node2 = 0; node2 < Size; node2++) {
-                AdjMatrix[node1][node2] = other.AdjMatrix[node1][node2];
-            }
-        }
-    }
+ protected:
+    virtual bool VerifyEdge(const std::pair<size_t, size_t>& edge) const;
  private:
-    bool VerifyEdge(const std::pair<size_t, size_t>& edge) const;
     bool** AdjMatrix; /*! <Second-order array of bools*/
     size_t Size; /*! <Graph's size == node's amount*/
 };
